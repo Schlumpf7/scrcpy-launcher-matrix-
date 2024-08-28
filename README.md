@@ -1,4 +1,4 @@
-# scrcpy launcher
+# scrcpy launcher fork with python code converted to python3
 Android device screen streaming using scrcpy on LibreELEC/Raspberry Pi devices.
 ## Get the add-on
 Download the latest version from the Releases page and place the zip file in your 
