@@ -28,12 +28,12 @@ while True:
     opt = xbmcgui.Dialog().contextmenu(['Stream Device','Settings'])
     if opt == 0:
         addr = addon.getSetting('ipaddress')
-        if adb_connect_to_device(addr):
+        if b'adb_connect_to_device(addr)':
             while True:
                 # check if USB debugging was authorized
                 launchCommand = "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.kodi/addons/script.scrcpy-launcher/bin/lib ~/.kodi/addons/script.scrcpy-launcher/bin/adb devices"
                 result = subprocess.check_output(launchCommand, shell=True)
-                if "unauthorized" in result:
+                if b"unauthorized" in result:
                     xbmcgui.Dialog().ok("Unauthorized", "Please allow USB debugging connection in Android device")
                 else:
                     break
