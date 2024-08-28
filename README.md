@@ -1,4 +1,4 @@
-# scrcpy launcher fork with python code converted to python3
+# scrcpy launcher fork with python code converted to python3 and support for arm64
 Android device screen streaming using scrcpy on LibreELEC/Raspberry Pi devices.
 ## Get the add-on
 Download the latest version from the Releases page and place the zip file in your 
@@ -10,3 +10,7 @@ Please see the [scrcpy Readme](https://github.com/Genymobile/scrcpy/blob/master/
 When running the add-on you will have to enter the local IP address of your Android device.
 To close scrcpy and return to Kodi, press <kbd>MOD</kbd>+Q. 
 The default shortcut modifier <kbd>MOD</kbd> is (left) <kbd>Alt</kbd> or (left) <kbd>Super</kbd>.
+
+
+# To-Do:
+- newer scrcpy version (at the time reading v1.25-1 from debian)
