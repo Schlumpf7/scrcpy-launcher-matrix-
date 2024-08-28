@@ -6,6 +6,9 @@ import subprocess
 from subprocess import CalledProcessError
 import xbmcaddon
 import xbmcgui
+import platform
+
+arch = platform.machine()
 
 def adb_connect_to_device(addr):
     try:
@@ -31,9 +34,14 @@ while True:
         if b'adb_connect_to_device(addr)':
             while True:
                 # check if USB debugging was authorized
-                launchCommand = "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.kodi/addons/script.scrcpy-launcher/bin/lib ~/.kodi/addons/script.scrcpy-launcher/bin/adb devices"
-                result = subprocess.check_output(launchCommand, shell=True)
-                if b"unauthorized" in result:
+                if arch == 'arm64':
+                    launchCommand = "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.kodi/addons/script.scrcpy-launcher/bin/lib_arm64 ~/.kodi/addons/script.scrcpy-launcher/bin/lib_arm64/adb devices"
+                    result = subprocess.check_output(launchCommand, shell=True)
+                elif arch == 'armhf':
+                    launchCommand = "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.kodi/addons/script.scrcpy-launcher/bin/lib ~/.kodi/addons/script.scrcpy-launcher/bin/lib/adb devices"
+                    result = subprocess.check_output(launchCommand, shell=True)
+             
+                elif b"unauthorized" in result:
                     xbmcgui.Dialog().ok("Unauthorized", "Please allow USB debugging connection in Android device")
                 else:
                     break
