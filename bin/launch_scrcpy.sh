@@ -1,4 +1,6 @@
 #!/bin/bash
+PLATFORM=$(uname -m)
+
 . /etc/profile
 
 
@@ -33,7 +35,11 @@ fi
 systemctl stop kodi # Must close kodi for proper video display
 
 bin=~/.kodi/addons/script.scrcpy-launcher/bin
-SDL_VIDEO_EGL_DRIVER=libEGL.so SDL_VIDEO_GL_DRIVER=libGLESv2.so LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$bin/lib PATH=$PATH:$bin SCRCPY_SERVER_PATH=$bin/scrcpy-server $bin/scrcpy --max-fps "$fps" -m "$size" --crop "$crop" --bit-rate "$bitrate" 
 
+if [ "$PLATFORM" == "aarch64" ]; then
+  SDL_VIDEO_EGL_DRIVER=libEGL.so SDL_VIDEO_GL_DRIVER=libGLESv2.so LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$bin/lib_arm64 PATH=$PATH:$bin SCRCPY_SERVER_PATH=$bin/scrcpy-server $bin/scrcpy_arm64 --max-fps "$fps" -m "$size" --crop "$crop" --bit-rate "$bitrate" 
+else
+  SDL_VIDEO_EGL_DRIVER=libEGL.so SDL_VIDEO_GL_DRIVER=libGLESv2.so LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$bin/lib PATH=$PATH:$bin SCRCPY_SERVER_PATH=$bin/scrcpy-server $bin/scrcpy --max-fps "$fps" -m "$size" --crop "$crop" --bit-rate "$bitrate" 
+fi
 systemctl start kodi # Reopen kodi
 
