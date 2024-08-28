@@ -1,8 +1,7 @@
 # scrcpy launcher fork with python code converted to python3 and support for arm64
 Android device screen streaming using scrcpy on LibreELEC/Raspberry Pi devices.
 ## Get the add-on
-Download the latest version from the Releases page and place the zip file in your 
-device's home directory.  Install via Kodi's Add-on browser.
+Download the master.zip and place it in your device's home directory.  Install via Kodi's Add-on browser.
 
 
 ## Instructions
