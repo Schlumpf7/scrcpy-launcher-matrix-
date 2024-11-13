@@ -17,7 +17,7 @@ if [ -z "$fps" ] || [ -z "$size" ] || [ -z "$crop" ] || [ -z "$bitrate" ]; then
     exit 1
 fi
 
-# Define paths and libraries based on architecture
+# Define paths based on architecture
 if [ "$PLATFORM" == "aarch64" ]; then
     BIN_PATH=~/.kodi/addons/script.scrcpy-launcher/bin/lib_arm64
 else
@@ -38,11 +38,19 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BIN_PATH
 export PATH=$PATH:$BIN_PATH
 export SCRCPY_SERVER_PATH=$BIN_PATH/scrcpy-server
 
-# Stop Kodi (optional, uncomment if needed for debugging)
-# systemctl stop kodi
+# Set XDG_RUNTIME_DIR to prevent errors
+export XDG_RUNTIME_DIR=/tmp/runtime-$(id -u)
+
+# Set the full path to adb if it's in the same folder as scrcpy
+ADB_PATH="$BIN_PATH/adb"
+
+# Ensure adb has executable permissions
+if [ ! -x "$ADB_PATH" ]; then
+    chmod +x "$ADB_PATH"
+fi
+
+# Start adb server if not already running
+"$ADB_PATH" start-server
 
 # Start scrcpy with specified options
 "$BIN_PATH/scrcpy" --max-fps "$fps" -m "$size" --crop "$crop" --bit-rate "$bitrate"
-
-# Restart Kodi (optional, uncomment if needed for debugging)
-# systemctl start kodi
