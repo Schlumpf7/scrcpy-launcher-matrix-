@@ -13,3 +13,4 @@ The default shortcut modifier <kbd>MOD</kbd> is (left) <kbd>Alt</kbd> or (left) 
 
 # To-Do:
 - newer scrcpy version (at the time reading v1.25-1 from debian)
+- binaries for other platforms
