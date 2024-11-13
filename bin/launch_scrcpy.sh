@@ -24,6 +24,13 @@ else
     BIN_PATH=~/.kodi/addons/script.scrcpy-launcher/bin/lib
 fi
 
+# Ensure scrcpy and scrcpy-server have executable permissions
+for file in "$BIN_PATH/scrcpy" "$BIN_PATH/scrcpy-server"; do
+    if [ ! -x "$file" ]; then
+        chmod +x "$file"
+    fi
+done
+
 # Set SDL environment variables for EGL/GL support
 export SDL_VIDEO_EGL_DRIVER=libEGL.so
 export SDL_VIDEO_GL_DRIVER=libGLESv2.so
