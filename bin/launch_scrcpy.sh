@@ -52,5 +52,14 @@ fi
 # Start adb server if not already running
 "$ADB_PATH" start-server
 
+# Stop Kodi to allow scrcpy to take control of the screen
+echo "Stopping Kodi..."
+systemctl stop kodi
+
 # Start scrcpy with specified options
+echo "Starting scrcpy..."
 "$BIN_PATH/scrcpy" --max-fps "$fps" -m "$size" --crop "$crop" --bit-rate "$bitrate"
+
+# Restart Kodi after scrcpy finishes
+echo "Starting Kodi..."
+systemctl start kodi
