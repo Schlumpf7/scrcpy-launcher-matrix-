@@ -59,8 +59,11 @@ while True:
             crop = addon.getSetting('crop')
             bitrate = addon.getSetting('bitrate')
 
-            launch_command = f"systemd-run bash ~/.kodi/addons/script.scrcpy-launcher/bin/launch_scrcpy.sh '{fps}' '{size}' '{crop}' '{bitrate}'"
-            os.system(launch_command)
+            launch_command = [
+                "bash", "~/.kodi/addons/script.scrcpy-launcher/bin/launch_scrcpy.sh",
+                fps, size, crop, bitrate
+            ]
+            subprocess.Popen(launch_command, shell=False)
 
         sys.exit()
 
@@ -68,3 +71,4 @@ while True:
         addon.openSettings()
     else:
         sys.exit()
+
