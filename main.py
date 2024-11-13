@@ -34,7 +34,7 @@ while True:
         if b'adb_connect_to_device(addr)':
             while True:
                 # check if USB debugging was authorized
-                if arch == 'arm64':
+                if arch == 'aarch64':
                     launchCommand = "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.kodi/addons/script.scrcpy-launcher/bin/lib_arm64 ~/.kodi/addons/script.scrcpy-launcher/bin/lib_arm64/adb devices"
                     result = subprocess.check_output(launchCommand, shell=True)
                 elif arch == 'armhf':
