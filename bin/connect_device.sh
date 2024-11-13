@@ -1,27 +1,34 @@
 #!/bin/bash
 
-# Set platform-dependent variables
+# Ensure adb has executable permissions
 PLATFORM=$(uname -m)
-ADDR="$1"
+if [ "$PLATFORM" == "aarch64" ]; then
+    ADB_PATH=~/.kodi/addons/script.scrcpy-launcher/bin/lib_arm64/adb
+    SCRCPY_PATH=~/.kodi/addons/script.scrcpy-launcher/bin/lib_arm64/scrcpy
+    SCRCPY_SERVER_PATH=~/.kodi/addons/script.scrcpy-launcher/bin/lib_arm64/scrcpy-server
+else
+    ADB_PATH=~/.kodi/addons/script.scrcpy-launcher/bin/lib/adb
+    SCRCPY_PATH=~/.kodi/addons/script.scrcpy-launcher/bin/lib/scrcpy
+    SCRCPY_SERVER_PATH=~/.kodi/addons/script.scrcpy-launcher/bin/lib/scrcpy-server
+fi
 
-# Verify the IP address is provided
-if [ -z "$ADDR" ]; then
+# Apply executable permissions if not already set
+for file in "$ADB_PATH" "$SCRCPY_PATH" "$SCRCPY_SERVER_PATH"; do
+    if [ ! -x "$file" ]; then
+        chmod +x "$file"
+    fi
+done
+
+# Connect to device using adb
+if [ -z "$1" ]; then
     echo "Error: Please specify IP address...exiting"
     exit 1
-fi
-
-# Define library paths based on architecture
-if [ "$PLATFORM" == "aarch64" ]; then
-    LIB_PATH=~/.kodi/addons/script.scrcpy-launcher/bin/lib_arm64
 else
-    LIB_PATH=~/.kodi/addons/script.scrcpy-launcher/bin/lib
+    addr="$1"
 fi
 
-# Connect to device using adb with correct environment variables
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LIB_PATH \
-"$LIB_PATH/adb" connect "$ADDR"
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(dirname "$ADB_PATH") "$ADB_PATH" connect "$addr"
 
-# Check if adb connection was successful
 if [ $? -eq 0 ]; then
     echo "Device connected successfully."
 else
